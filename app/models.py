@@ -8,10 +8,14 @@ class User(db.Model):
     lname = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable = False)
     password = db.Column(db.String(255), nullable=False)
-    bucketlists = db.relationships('Bucketlist', backref = bucketlist, lazy = 'dynamic')
+    bucketlists = db.relationships('Bucketlist', backref = 'bucketlist', lazy = 'dynamic')
 
-    def __init__(self):
-        pass
+    def __init__(self, fname, lname, email, password):
+        self.fname = fname
+        self.lname = lname
+        self.email = email
+        self.password = password
+
 
 
 
