@@ -4,15 +4,11 @@ from app import db
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    fname = db.Column(db.String(255), nullable=False)
-    lname = db.Column(db.String(255), nullable=False)
-    email = db.Column(db.String(255), nullable = False)
+    email = db.Column(db.String(255),unique=True, nullable = False)
     password = db.Column(db.String(255), nullable=False)
-    bucketlists = db.relationships('Bucketlist', lazy='dynamic')
+    bucketlists = db.relationship('Bucketlist',  order_by='Bucketlist.id', lazy='dynamic')
 
-    def __init__(self, fname, lname, email, password):
-        self.fname = fname
-        self.lname = lname
+    def __init__(self, email, password):
         self.email = email
         self.password = password
 
@@ -34,7 +30,7 @@ class Bucketlist(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     userId = db.Column(db.Integer, db.ForeignKey('users.id'))
     blistname = db.Column(db.String(255), nullable=False)
-    items = db.Column(db.relationships('BucketListItems', lazy="dynamic"), nullable=False)
+    items = db.relationship('BucketlistItem', order_by='BucketlistItem.id',  lazy='dynamic')
 
     def __init__(self, blistname):
         self.blistname = blistname
