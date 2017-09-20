@@ -1,7 +1,6 @@
 from app import db
 
 
-
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -21,6 +20,7 @@ class User(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    @staticmethod
     def get_all(self):
         return User.query.all()
 
@@ -39,6 +39,18 @@ class Bucketlist(db.Model):
     def __init__(self, blistname):
         self.blistname = blistname
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def edit_list(self, blistname):
+        self.blistname = blistname
+        db.session.commit()
+
 
 class BucketlistItem(db.Model):
     __tablename__ = 'Bucketlistitems'
@@ -49,5 +61,19 @@ class BucketlistItem(db.Model):
 
     def __init__(self, item_name):
         self.item_name = item_name
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def edit_item(self, item_name, status=None):
+        self.item_name = item_name
+        if status:
+            self.completed = status
+        db.session.commit()
 
 
