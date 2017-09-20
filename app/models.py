@@ -1,4 +1,4 @@
-from app import app, db, bcrypt
+from app import db
 
 
 
@@ -16,6 +16,17 @@ class User(db.Model):
         self.lname = lname
         self.email = email
         self.password = password
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def get_all(self):
+        return User.query.all()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
 
 class Bucketlist(db.Model):
