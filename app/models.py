@@ -29,11 +29,11 @@ class Bucketlist(db.Model):
     __tablename__ = 'bucketlists'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     userId = db.Column(db.Integer, db.ForeignKey('users.id'))
-    blistname = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(255), nullable=False)
     items = db.relationship('BucketlistItem', order_by='BucketlistItem.id',  lazy='dynamic')
 
-    def __init__(self, blistname):
-        self.blistname = blistname
+    def __init__(self, name):
+        self.name = name
 
     def save(self):
         db.session.add(self)
