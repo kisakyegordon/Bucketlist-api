@@ -28,6 +28,30 @@ class BucketlistTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertIn('Go to Borabora', str(res.data))
 
+    def test_bucketlist_deletion(self):
+        rv = self.client.post(
+            '/bucketlists/',
+            data={'name': 'Eat, pray and love'})
+        self.assertEqual(rv.status_code, 201)
+        res = self.client.delete('/bucketlists/1')
+        self.assertEqual(res.status_code, 200)
+        result = self.client.get('/bucketlists/1')
+        self.assertEqual(result.status_code, 404)
+
+    def test_bucketlist_can_be_edited(self):
+        rv = self.client.post(
+            '/bucketlists/',
+            data={'name': 'Eat, pray and love'})
+        self.assertEqual(rv.status_code, 201)
+        rv = self.client.put(
+            '/bucketlists/1',
+            data={
+                "name": "Dont just eat, but also pray and love :-)"
+            })
+        self.assertEqual(rv.status_code, 200)
+        results = self.client.get('/bucketlists/1')
+        self.assertIn('Dont just eat', str(results.data))
+
     def test_api_can_get_bucketlist_by_id(self):
         rv = self.client.post('/bucketlists/', data=self.bucketlist)
         self.assertEqual(rv.status_code, 201)
