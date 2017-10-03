@@ -1,6 +1,6 @@
 from app import db
 
-
+'''
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -23,12 +23,12 @@ class User(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
-
+'''
 
 class Bucketlist(db.Model):
     __tablename__ = 'bucketlists'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    userId = db.Column(db.Integer, db.ForeignKey('users.id'))
+    #userId = db.Column(db.Integer, db.ForeignKey('users.id'))
     name = db.Column(db.String(255), nullable=False)
     items = db.relationship('BucketlistItem', order_by='BucketlistItem.id',  lazy='dynamic')
 
@@ -39,6 +39,10 @@ class Bucketlist(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    @staticmethod
+    def get_all():
+        return Bucketlist.query.all()
+
     def delete(self):
         db.session.delete(self)
         db.session.commit()
@@ -47,13 +51,13 @@ class Bucketlist(db.Model):
         self.blistname = blistname
         db.session.commit()
 
-
 class BucketlistItem(db.Model):
     __tablename__ = 'Bucketlistitems'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     item_name = db.Column(db.String(255), nullable=False)
     completed = db.Column(db.Boolean, default=False, nullable=False)
     bucketlist_id = db.Column(db.Integer, db.ForeignKey('bucketlists.id'), nullable=False)
+
 
     def __init__(self, item_name):
         self.item_name = item_name
