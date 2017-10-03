@@ -28,6 +28,15 @@ class BucketlistTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertIn('Go to Borabora', str(res.data))
 
+    def test_api_can_get_bucketlist_by_id(self):
+        rv = self.client.post('/bucketlists/', data=self.bucketlist)
+        self.assertEqual(rv.status_code, 201)
+        result_in_json = json.loads(rv.data.decode('utf-8').replace("'", "\""))
+        result = self.client.get(
+            '/bucketlists/{}'.format(result_in_json['id']))
+        self.assertEqual(result.status_code, 200)
+        self.assertIn('Go to Borabora', str(result.data))
+
     def tearDown(self):
         with self.app.app_context():
             db.session.remove()
