@@ -31,16 +31,14 @@ class AuthTestCase(unittest.TestCase):
         self.assertEqual(result['message'], "User already exists. Please login.")
 
     def test_user_login(self):
-        res = self.client().post('/auth/register', data=self.user_data)
+        res = self.client.post('/auth/register', data=self.user_data)
         self.assertEqual(res.status_code, 201)
-        login_res = self.client().post('/auth/login', data=self.user_data)
-        # get the results in json format
+        login_res = self.client.post('/auth/login', data=self.user_data)
         result = json.loads(login_res.data.decode())
-        # Test that the response contains success message
         self.assertEqual(result['message'], "You logged in successfully.")
-        # Assert that the status code is equal to 200
         self.assertEqual(login_res.status_code, 200)
         self.assertTrue(result['access_token'])
+        #print(result['access_token'])
 
     def test_non_registered_user_login(self):
         """Test non registered users cannot login."""
@@ -50,7 +48,7 @@ class AuthTestCase(unittest.TestCase):
             'password': 'nope'
         }
         # send a POST request to /auth/login with the data above
-        res = self.client().post('/auth/login', data=not_a_user)
+        res = self.client.post('/auth/login', data=not_a_user)
         # get the result in json
         result = json.loads(res.data.decode())
 
@@ -59,4 +57,12 @@ class AuthTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 401)
         self.assertEqual(
             result['message'], "Invalid email or password, Please try again")
+
+    def tearDown(self):
+        with self.app.app_context():
+            db.session.remove()
+            db.drop_all()
+
+if __name__ == "__main__":
+    unittest.main()
 
