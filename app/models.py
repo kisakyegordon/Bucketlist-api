@@ -63,7 +63,7 @@ class User(db.Model):
 class Bucketlist(db.Model):
     __tablename__ = 'bucketlists'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    userId = db.Column(db.Integer, db.ForeignKey('users.id'))
+    userId = db.Column(db.Integer, db.ForeignKey(User.id))
     name = db.Column(db.String(255), nullable=False)
     items = db.relationship(
         'BucketlistItem', order_by='BucketlistItem.id', cascade="all, delete-orphan")
@@ -92,8 +92,8 @@ class BucketlistItem(db.Model):
     __tablename__ = 'Bucketlistitems'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     item_name = db.Column(db.String(255), nullable=False)
-    completed = db.Column(db.Boolean, default=False, nullable=False)
-    bucketlist_id = db.Column(db.Integer, db.ForeignKey('bucketlists.id'), nullable=False)
+    bucketlist_id = db.Column(db.Integer, db.ForeignKey(Bucketlist.id))
+    completed = db.Column(db.Boolean, default=False)
 
     def __init__(self, item_name):
         self.item_name = item_name
