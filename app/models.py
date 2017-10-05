@@ -2,6 +2,7 @@ from app import db
 from flask_bcrypt import Bcrypt
 from datetime import datetime, timedelta
 import jwt
+from flask import current_app
 
 
 class User(db.Model):
@@ -20,7 +21,7 @@ class User(db.Model):
         db.session.commit()
 
     def password_is_valid(self, password):
-        pass
+        return Bcrypt().check_password_hash(self.password, password)
 
     def generate_token(self, user_id):
         try:
