@@ -16,6 +16,7 @@ def create_app(config_name):
     app.config.from_pyfile('config.py')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
+    #bcrypt = Bcrypt(app)
 
     @app.route('/bucketlists/', methods=['GET', 'POST'])
     def bucketlists():
@@ -91,12 +92,12 @@ def create_app(config_name):
         if request.method == 'POST':
             name = str(request.data.get('name', ''))
             if name:
-                bucketlistitem = BucketlistItem(
-                    item_name=name)
+                bucketlistitem = BucketlistItem(item_name=name, bucketlist_id=id)
                 bucketlistitem.save()
                 response = jsonify({
                     'id': bucketlistitem.id,
-                    'name': bucketlistitem.item_name
+                    'name': bucketlistitem.item_name,
+                    'bucketlist_id': bucketlistitem.bucketlist_id
                 })
                 response.status_code = 201
                 return response
@@ -113,6 +114,18 @@ def create_app(config_name):
                 response = jsonify(results)
                 response.status_code = 200
                 return response
+
+        @app.route('/bucketlists/<int:id>/items/<int:item_id>', methods=['GET', 'PUT', 'DELETE'])
+        def bucketlist_manipulation(id, item_id):
+            bucketlistitems = BucketlistItem.query.filter_by(bucketlist_id=item_id).first()
+            if not bucketlistitems:
+                abort(404)
+            if request.method == 'PUT':
+                pass
+            if request.method == 'GET':
+                pass
+            if request.method == 'DELETE':
+                pass
 
 
     from .auth import auth_blueprint
