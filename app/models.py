@@ -7,7 +7,7 @@ from flask import current_app
 
 class User(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255),unique=True, nullable = False)
     password = db.Column(db.String(255), nullable=False)
     bucketlists = db.relationship('Bucketlist',  order_by='Bucketlist.id', lazy='dynamic')
@@ -34,7 +34,7 @@ class User(db.Model):
             # create the byte string token using the payload and the SECRET key
             jwt_string = jwt.encode(
                 payload,
-                current_app.config.get('SECRET'),
+                'gdgfd',
                 algorithm='HS256'
             )
             return jwt_string
@@ -47,7 +47,7 @@ class User(db.Model):
     def decode_token(token):
         try:
             # try to decode the token using our SECRET variable
-            payload = jwt.decode(token, current_app.config.get('SECRET'))
+            payload = jwt.decode(token, 'gdgfd')
             return payload['sub']
         except jwt.ExpiredSignatureError:
             # the token is expired, return an error string
@@ -56,9 +56,6 @@ class User(db.Model):
             # the token is invalid, return an error string
             return "Invalid token. Please register or login"
 
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
 
 class Bucketlist(db.Model):
     __tablename__ = 'bucketlists'
@@ -87,6 +84,9 @@ class Bucketlist(db.Model):
         self.blistname = blistname
         db.session.commit()
 
+    def __repr__(self):
+        return "<Bucketlist: {}>".format(self.name)
+
 
 class BucketlistItem(db.Model):
     __tablename__ = 'Bucketlistitems'
@@ -114,4 +114,6 @@ class BucketlistItem(db.Model):
             self.completed = status
         db.session.commit()
 
+    def __repr__(self):
+        return "<BucketlistItem: {}>".format(self.name)
 
