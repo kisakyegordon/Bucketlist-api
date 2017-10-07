@@ -34,11 +34,10 @@ class AuthTestCase(unittest.TestCase):
         res = self.client.post('/auth/register', data=self.user_data)
         self.assertEqual(res.status_code, 201)
         login_res = self.client.post('/auth/login', data=self.user_data)
-        result = json.loads(login_res.data.decode())
+        result = json.loads(login_res.data)
         self.assertEqual(result['message'], "You logged in successfully.")
         self.assertEqual(login_res.status_code, 200)
         self.assertTrue(result['access_token'])
-        #print(result['access_token'])
 
     def test_non_registered_user_login(self):
         """Test non registered users cannot login."""
