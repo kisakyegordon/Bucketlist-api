@@ -1,12 +1,14 @@
-from . import auth_blueprint
-from flask import make_response, request, jsonify
+"""Module containing authentication routes."""
 from app.models import User
 from flask.views import MethodView
+from flask import make_response, request, jsonify
+from . import auth_blueprint
 
 
 class RegistrationView(MethodView):
-
+    """Class containing user registration methods."""
     def post(self):
+        """method for registering users."""
         user = User.query.filter_by(email=request.data['email']).first()
         if not user:
             try:
@@ -33,6 +35,7 @@ class RegistrationView(MethodView):
                 'message': 'User already exists. Please login.'
             }
             return make_response(jsonify(response)), 202
+
 
 class LoginView(MethodView):
     """This class-based view handles user login and access token generation."""

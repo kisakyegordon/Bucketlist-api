@@ -1,9 +1,11 @@
+"""Module for testing the user registration and login."""
 import unittest
 import json
 from app import create_app, db
 
 
 class AuthTestCase(unittest.TestCase):
+    """User authentication testcases"""
     def setUp(self):
         self.app = create_app(config_name="testing")
         self.client = self.app.test_client()
@@ -17,12 +19,14 @@ class AuthTestCase(unittest.TestCase):
             db.create_all()
 
     def test_user_registration(self):
-        res = self.client.post('/auth/register', data = self.user_data)
+        """Method for testing user registration."""
+        res = self.client.post('/auth/register', data=self.user_data)
         result = json.loads(res.data.decode())
         self.assertEqual(result['message'], "You registered successfully.")
         self.assertEqual(res.status_code, 201)
 
     def test_registered_already(self):
+        """Method for testing user registration when the user already exists."""
         res = self.client.post('/auth/register', data=self.user_data)
         self.assertEqual(res.status_code, 201)
         second_res = self.client.post('/auth/register', data=self.user_data)
@@ -31,6 +35,7 @@ class AuthTestCase(unittest.TestCase):
         self.assertEqual(result['message'], "User already exists. Please login.")
 
     def test_user_login(self):
+        """method for testing user login."""
         res = self.client.post('/auth/register', data=self.user_data)
         self.assertEqual(res.status_code, 201)
         login_res = self.client.post('/auth/login', data=self.user_data)
@@ -40,7 +45,7 @@ class AuthTestCase(unittest.TestCase):
         self.assertTrue(result['access_token'])
 
     def test_non_registered_user_login(self):
-        """Test non registered users cannot login."""
+        """Method for testing non registered users."""
         # define a dictionary to represent an unregistered user
         not_a_user = {
             'email': 'not_a_user@example.com',
@@ -64,4 +69,3 @@ class AuthTestCase(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
