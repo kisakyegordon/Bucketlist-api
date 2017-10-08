@@ -1,3 +1,4 @@
+"""Module used to manage the migrations and run application tests."""
 import os
 import unittest
 from flask_script import Manager
@@ -14,6 +15,7 @@ manager.add_command('db', MigrateCommand)
 
 @manager.command
 def test():
+    """Method used to run all the application tests."""
     tests = unittest.TestLoader().discover('./tests', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
