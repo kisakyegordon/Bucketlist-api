@@ -70,7 +70,7 @@ def create_app(config_name):
                 elif request.method == 'DELETE':
                     bucketlist.delete()
                     return {"message": "bucketlist"
-                                       " {} deleted ""successfully".format(bucketlist.id)}, 200
+                                       " {} deleted successfully".format(bucketlist.id)}, 200
                 elif request.method == 'PUT':
                     name = str(request.data.get('name', ''))
                     bucketlist.name = name
