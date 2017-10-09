@@ -11,7 +11,7 @@ cache: pip
 # command to install the application dependencies
 
 before_install:
-    - export DATABASE_URL_TEST="postgresql://postgres:123456@localhost/test_db"
+    - export DATABASE_URL_TEST="postgresql://postgres@localhost/test_db"
     - export FLASK_APP=run.py
     
 install:
