@@ -11,13 +11,18 @@ cache: pip
 # command to install the application dependencies
 
 before_install:
-    - export DATABASE_URL="postgresql://postgres:123456@localhost/test_db"
+    - export DATABASE_URL_TEST="postgresql://postgres:123456@localhost/test_db"
     - export FLASK_APP=run.py
     
 install:
   - "pip install -r requirements.txt"
   - "pip install coveralls"
   - "pip install coverage"
+
+ before_script:
+  - psql -c 'create database test;' -U postgres
+  - python manage.py db upgrade
+
 # command to run tests
 script: "python manage.py test"
 
