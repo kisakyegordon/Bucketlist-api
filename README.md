@@ -25,23 +25,21 @@ POST | /auth/register | True | Create an account
 POST | /auth/login | True | Login a user
 POST | /auth/logout | False | Logout a user
 POST | /auth/reset-password | False | Reset a user password
-GET | /user | False | Returns details of a logged in user
-PUT | /user | False | Updates details of a logged in user
 
-#### Endpoints to create, update, view and delete a shopping list
+#### Endpoints to create, update, view and delete a bucket list
 HTTP Method|End point | Public Access|Action
 -----------|----------|--------------|------
-POST | /shoppinglists | False | Create a shopping list
-GET | /shoppinglists | False | View all shopping lists
-GET | /shoppinglists/id | False | View details of a shopping list
-PUT | /shoppinglists/id | False | Updates a shopping list with a given id
-DELETE | /shoppinglists/id | False | Deletes a shopping list with a given id
+POST | /bucketlists | False | Create a bucket list
+GET | /bucketlists | False | View all bucket lists
+GET | /bucketlists/id | False | View details of a bucket list
+PUT | /bucketlists/id | False | Updates a bucket list with a given id
+DELETE | /bucketlists/id | False | Deletes a bucket list with a given id
 
-#### Endpoints to create, update, view and delete a shopping list item
+#### Endpoints to create, update, view and delete a bucket list item
 HTTP Method|End point | Public Access|Action
 -----------|----------|--------------|------
-GET | /shoppinglists/id/items | False | View Items of a given list id
-GET | /shoppinglists/id/items/<item_id> | False | View details of a particular item on a given list id
-POST | /shoppinglists/id/items | False | Add an Item to a shopping list
-PUT | /shoppinglists/id/items/<item_id> | False | Update a shopping list item on a given list
-DELETE | /shoppinglists/id/items/<item_id> | False | Delete a shopping list item from a given list
+GET | /bucketlists/id/items | False | View Items of a given list id
+GET | /bucketlists/id/items/<item_id> | False | View details of a particular item on a given list id
+POST | /bucketlists/id/items | False | Add an Item to a bucket list
+PUT | /bucketlists/id/items/<item_id> | False | Update a bucket list item on a given list
+DELETE | /bucketlists/id/items/<item_id> | False | Delete a bucket list item from a given list
