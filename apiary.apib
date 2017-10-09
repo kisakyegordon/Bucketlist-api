@@ -1,0 +1,304 @@
+FORMAT: 1A
+HOST: http://localhost:5000/
+
+# Bucket list API Application using flask framework
+
+"The challenge of keeping track of dreams and goals is a need for many individuals that requires an innovative and robust solution that will allow them to remember and share the fun with others "
+
+The innovative bucket list app is an application that allows users to record and share things they want to achieve or experience before reaching a certain age meeting the needs of keeping track of their dreams and goals.
+
+## User Registration [/auth/register]
+
+### Register User [POST]
+
+ A User can register. The user submits in the body their name and password.
+
++ Request (application/json)
+    
+        {
+            "email": "email@example.com",
+            "password": "password"
+        }
+
++ Response 201 (application/json)
+
+        [
+            "message": "You registered successfully."
+        ]
+        
+## User Login [/auth/login]
+
+### User Login [POST]
+
+User can now login in after registration. The user is then given an access token. They cant access any of the bucket list informatoin without having an access token.
+
++ Request (application/json)
+
+        {
+            "email": "email@example.com",
+            "password": "password"
+        }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Authorization: access_token
+
+    + Body
+
+            {
+                "message": "You logged in successfully.",
+                "access_token": "20150805T08:40:51620Z"
+            }
+            
+## Create Bucket list [/bucketlists/]
+
+### Create bucket list [POST]
+
+After a user registers and logins in. They are able to now create and view bucket lists. 
+
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: access_token
+        
+    + Body
+    
+            {
+                'name': 'bucket list name.'
+            }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Authorization: access_token
+
+    + Body
+
+            {   
+                "id": 1,
+                "name": "bucketlist name 1."
+            }
+
+
+
+### View bucket lists [GET]
+
+After creating the bucket lists one can then view the bucket lists.
+
+
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: access_token
+        
+    + Body
+    
+            {
+                'name': 'bucket list name.'
+            }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Authorization: access_token
+
+    + Body
+
+            [
+                {   
+                    "id": 1,
+                    "name": "bucketlist name 1."
+                },
+                {   
+                    "id": 2,
+                    "name": "bucketlist name 2."
+                },
+            ]
+            
+            
+            
+## Manipulate Bucket list [/bucketlists/<int:id>]
+
+### Delete bucket list [DELETE]
+
+After creating the bucket lists one can then delete the bucket lists.
+
+
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: access_token
+        
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Authorization: access_token
+
+    + Body
+
+            {
+                "message": "bucketlist 1 deleted successfully"
+            }
+
+
+### Edit bucket list [PUT]
+
+After creating the bucket lists one can then edit the bucket lists.
+
+
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: access_token
+    
+    + Body
+
+            {
+                "name": "bucket list name 1"
+            }    
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Authorization: access_token
+
+    + Body
+
+            {
+                "id": 1,
+                "name": "bucket list name 2"
+            }
+
+
+
+### Get bucket list [GET]
+
+After creating the bucket lists one can then view a particular the bucket list.
+
+
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: access_token
+    
+   
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Authorization: access_token
+
+    + Body
+
+            {
+                "id": 1,
+                "name": "bucket list name 2"
+            }
+            
+## Create Bucket list item [/bucketlists/<int:id>/items]
+
+### Create Bucket list item [POST]
+
+After creating the bucket lists one can then add a particular  bucket list item to the bucket list.
+
+
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: access_token
+    
+    
+    + Body 
+    
+            {
+            
+                    "name": "bucket list item 1"
+            
+            }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Authorization: access_token
+
+    + Body
+
+            {
+                "id": 1,
+                "name": "bucket list item 1",
+                "bucketlist_id": 1
+            }
+            
+## Manipulate Bucket list item [/bucketlists/<int:id>/items/<int:id>]
+
+### Edit Bucket list item [PUT]
+
+After creating a particular bucket list item to the bucket list. the user can then edit the bucket list item.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: access_token
+
+    + Body
+
+            {
+                "id": 1,
+                "name": "bucket list item 1",
+                "bucketlist_id": 1
+            }
+            
++ Response 201 (application/json)
+
+    + Headers
+
+            Authorization: access_token
+
+    + Body
+
+            {
+                "id": 1,
+                "name": "bucket list item 1",
+                "bucketlist_id": 1
+            }
+            
+
+
+### Delete Bucket list item [DELETE]
+
+After creating a particular bucket list item to the bucket list. the user can then delete the bucket list item.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: access_token
+
+            
++ Response 200 (application/json)
+
+    + Headers
+
+            Authorization: access_token
+
+    + Body
+
+            {
+                "message": "Bucketlist item deleted successfully."
+            }
