@@ -2,18 +2,23 @@ language: python
 
 # versions
 python:
-  - "3.3"
-  - "3.4"
-  - "3.5"
   - "3.6"
+  
+service:
+    - postgresql
+    
 cache: pip
 # command to install the application dependencies
-install:
-  - pip install coveralls
-  - pip install coverage
-# command to run tests
-script:
-  - nosetests --with-coverage
 
-after_success:
-  - coveralls
+before_install:
+    - export DATABASE_URL="postgresql://postgres:123456@localhost/test_db"
+    - export FLASK_APP=run.py
+    
+install:
+  - "pip install -r requirements.txt"
+  - "pip install coveralls"
+  - "pip install coverage"
+# command to run tests
+script: "python manage.py test"
+
+after_success: "coveralls"
