@@ -24,7 +24,7 @@ HTTP Method|End point | Public Access|Action
 POST | /auth/register | True | Create an account
 POST | /auth/login | True | Login a user
 POST | /auth/logout | False | Logout a user
-POST | /auth/reset-password | False | Reset a user password
+POST | /auth/reset-password | True | Reset a user password
 
 #### Endpoints to create, update, view and delete a bucket list
 HTTP Method|End point | Public Access|Action

@@ -74,7 +74,7 @@ class LoginView(MethodView):
 
 class LogoutView(MethodView):
             """This class-based view handles user logout"""
-            def post(self):
+            def get(self):
                 try:
                     response = {
                         'message': 'You logged out successfully.',
@@ -96,7 +96,7 @@ class LogoutView(MethodView):
 # Define the API resource
 registration_view = RegistrationView.as_view('registration_view')
 login_view = LoginView.as_view('login_view')
-LogoutView = LoginView.as_view('logout_view')
+Logout_view = LoginView.as_view('logout_view')
 
 # Define the rule for the registration url --->  /auth/register
 # Then add the rule to the blueprint
