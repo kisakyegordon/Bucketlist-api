@@ -1,0 +1,19 @@
+language: python
+
+# versions
+python:
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+cache: pip
+# command to install the application dependencies
+install:
+  - pip install coveralls
+  - pip install coverage
+# command to run tests
+script:
+  - nosetests --with-coverage
+
+after_success:
+  - coveralls
