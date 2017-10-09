@@ -1,11 +1,9 @@
 """Module that contains routes for bucket lists and bucket list items."""
+from flask import request, jsonify, abort, make_response
 from flask_api import FlaskAPI
 from flask_sqlalchemy import SQLAlchemy
-from flask import request, jsonify, abort, make_response
-from flask_bcrypt import Bcrypt
 
-# local import
-from instance.config import app_config
+from config import app_config
 
 # initialize sql-alchemy
 db = SQLAlchemy()
