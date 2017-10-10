@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/freshprincekla/Bucketlist-api/badge.svg?branch=master)](https://coveralls.io/github/freshprincekla/Bucketlist-api?branch=master)
+
 # Bucket list Api Application using flask framework
 
 "The challenge of keeping track of dreams and goals is a need for many individuals that
