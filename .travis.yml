@@ -5,17 +5,15 @@ python:
 service:
   - postgresql
 
-cache: pip
-# command to install the application dependencies
 
 before_install:
-
+  - export DATABASE_URL_TEST="postgresql://postgres@localhost/test_db"
   - export FLASK_APP=run.py
     
 install:
-  - "pip install -r requirements.txt"
-  - "pip install coveralls"
-  - "pip install coverage"
+  - pip install -r requirements.txt
+  - pip install coveralls
+  - pip install coverage
 
  before_script:
   - psql -c "CREATE ROLE postgres PASSWORD '123456' CREATEDB CREATEROLE INHERIT LOGIN;" -U postgres
@@ -25,6 +23,6 @@ install:
   - python manage.py db upgrade
 
 # command to run tests
-script: "python manage.py test"
+script: python manage.py test
 
 after_success: "coveralls"
