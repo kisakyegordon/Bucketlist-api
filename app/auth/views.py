@@ -73,30 +73,45 @@ class LoginView(MethodView):
 
 
 class LogoutView(MethodView):
-            """This class-based view handles user logout"""
-            def get(self):
-                try:
-                    response = {
-                        'message': 'You logged out successfully.',
-                        'access_token': None
-                    }
-                    return make_response(jsonify(response)), 200
-                except Exception as e:
-                    # An error occured, therefore return a string message containing the error
-                    response = {
-                        'message': str(e)
-                    }
-                    return make_response(jsonify(response)), 401
+    """This class-based view handles user logout"""
+
+    def get(self):
+        try:
+            response = {
+                'message': 'You logged out successfully.',
+                'access_token': None
+            }
+            return make_response(jsonify(response)), 200
+        except Exception as e:
+            # An error occured, therefore return a string message containing the error
+            response = {
+                'message': str(e)
+            }
+            return make_response(jsonify(response)), 401
 
 
-
-
+class PasswordresetView(MethodView):
+    """Method to reset the user password."""
+    def post(self):
+        user = User.query.filter_by(email=request.data['email']).first()
+        if user:
+            user.password = request.data['password']
+            response = {
+                "message": "User password was successfully reset."
+            }
+            return make_response(jsonify(response)), 201
+        else:
+            response = {
+                "message": "The account whose password you are trying to reset doesnt exist."
+            }
+            return make_response(jsonify(response)), 201
 
 
 # Define the API resource
 registration_view = RegistrationView.as_view('registration_view')
 login_view = LoginView.as_view('login_view')
-Logout_view = LoginView.as_view('logout_view')
+logout_view = LogoutView.as_view('logout_view')
+passwordreset_view = PasswordresetView.as_view('passwordreset_view')
 
 # Define the rule for the registration url --->  /auth/register
 # Then add the rule to the blueprint
@@ -117,6 +132,14 @@ auth_blueprint.add_url_rule(
 # Then add the rule to the blueprint
 auth_blueprint.add_url_rule(
     '/auth/logout',
-    view_func=login_view,
+    view_func=logout_view,
     methods=['GET']
+)
+
+# Define the rule for the registration url --->  /auth/login
+# Then add the rule to the blueprint
+auth_blueprint.add_url_rule(
+    '/auth/reset-password',
+    view_func=passwordreset_view,
+    methods=['POST']
 )
