@@ -25,11 +25,18 @@ def create_app(config_name):
         access_token = request.headers.get("Authorization")
         if access_token:
             user_id = User.decode_token(access_token)
+            if not access_token:
+                response = {
+                    "message": "Please login first."
+                }
+                response.status_code = 403
+                return jsonify(response)
             if not isinstance(user_id, str):
                 if request.method == 'POST':
                     name = str(request.data.get('name', ''))
+                    u_id = user_id
                     if name:
-                        bucketlist = Bucketlist(name=name)
+                        bucketlist = Bucketlist(name=name, user_id=u_id)
                         bucketlist.save()
                         response = jsonify({
                             'id': bucketlist.id,
@@ -51,9 +58,6 @@ def create_app(config_name):
                     response.status_code = 200
                     return response
 
-        return {
-            "message": "Please login first."
-        }
 
     @app.route('/bucketlists/<int:id>', methods=['GET', 'PUT', 'DELETE'])
     def bucketlist_manipulation(id):
@@ -61,6 +65,12 @@ def create_app(config_name):
         access_token = request.headers.get('Authorization')
         if access_token:
             user_id = User.decode_token(access_token)
+            if not access_token:
+                response = {
+                    "message": "Please login first."
+                }
+                response.status_code = 403
+                return jsonify(response)
             if not isinstance(user_id, str):
                 bucketlist = Bucketlist.query.filter_by(id=id).first()
                 if not bucketlist:
@@ -68,7 +78,7 @@ def create_app(config_name):
                 elif request.method == 'DELETE':
                     bucketlist.delete()
                     return {"message": "bucketlist"
-                                       " {} deleted successfully".format(bucketlist.id)}, 200
+                                       " {} deleted successfully".format(bucketlist.name)}, 200
                 elif request.method == 'PUT':
                     name = str(request.data.get('name', ''))
                     bucketlist.name = name
@@ -87,6 +97,7 @@ def create_app(config_name):
                     })
                     response.status_code = 200
                     return response
+            return {"message": "Please login first."}
         return {
             "message": "Please login first."
         }
@@ -100,7 +111,7 @@ def create_app(config_name):
             if not isinstance(user_id, str):
                 bucketlist = Bucketlist.query.filter_by(id=id).first()
                 if not bucketlist:
-                    abort(404)
+                    return {"message": "No bucket lists exists please create some."}
                 if request.method == 'POST':
                     name = str(request.data.get('name', ''))
                     if name:
