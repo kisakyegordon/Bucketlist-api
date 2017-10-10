@@ -1,18 +1,16 @@
 language: python
-
-# versions
 python:
   - "3.6"
   
 service:
-    - postgresql
-    
+  - postgresql
+
 cache: pip
 # command to install the application dependencies
 
 before_install:
-    - export DATABASE_URL_TEST="postgresql://postgres@localhost/test_db"
-    - export FLASK_APP=run.py
+  - export DATABASE_URL_TEST="postgresql://postgres@localhost/test_db"
+  - export FLASK_APP=run.py
     
 install:
   - "pip install -r requirements.txt"
