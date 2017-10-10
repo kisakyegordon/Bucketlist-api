@@ -23,6 +23,13 @@ class User(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    @staticmethod
+    def update():
+        """
+        This method update a new record to the database
+        """
+        db.session.commit()
+
     def password_is_valid(self, password):
         """Method that validates user password."""
         return Bcrypt().check_password_hash(self.password, password)
@@ -75,8 +82,9 @@ class Bucketlist(db.Model):
         order_by='BucketlistItem.id',
         cascade="all, delete-orphan")
 
-    def __init__(self, name):
+    def __init__(self, name, user_id):
         self.name = name
+        self.userId = user_id
 
     def save(self):
         """method that saves bucket list information."""
