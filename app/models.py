@@ -23,11 +23,11 @@ class User(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    @staticmethod
-    def update():
+    def update_password(self, password):
         """
         This method update a new record to the database
         """
+        self.password = Bcrypt().generate_password_hash(password).decode()
         db.session.commit()
 
     def password_is_valid(self, password):

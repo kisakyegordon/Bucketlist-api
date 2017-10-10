@@ -56,7 +56,7 @@ class AuthTestCase(unittest.TestCase):
         self.assertEqual(res1.status_code, 201)
         result = json.loads(res1.data)
         self.assertEqual(result['message'], "User password was successfully reset.")
-        login_res = self.client.post('/auth/login', data=self.user_data)
+        login_res = self.client.post('/auth/login', data=self.user2_data)
         #print(login_res)
         self.assertEqual(login_res.status_code, 200)
 

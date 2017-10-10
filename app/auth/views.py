@@ -97,11 +97,10 @@ class PasswordresetView(MethodView):
         if user:
             email = request.data['email']
             password = str(request.data['password'])
-            user_cahnge = User(email=email, password=password)
-            user_cahnge.update()
+            user.update_password(password)
             response = {
                 "message": "User password was successfully reset.",
-                "password": user.password
+                "email": email
             }
             return make_response(jsonify(response)), 201
         else:

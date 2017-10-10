@@ -17,7 +17,6 @@ def create_app(config_name):
     #app.config.from_pyfile('config.py')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
-    #bcrypt = Bcrypt(app)
 
     @app.route('/bucketlists/', methods=['GET', 'POST'])
     def bucketlists():
@@ -25,12 +24,6 @@ def create_app(config_name):
         access_token = request.headers.get("Authorization")
         if access_token:
             user_id = User.decode_token(access_token)
-            if not access_token:
-                response = {
-                    "message": "Please login first."
-                }
-                response.status_code = 403
-                return jsonify(response)
             if not isinstance(user_id, str):
                 if request.method == 'POST':
                     name = str(request.data.get('name', ''))
@@ -57,7 +50,11 @@ def create_app(config_name):
                     response = jsonify(results)
                     response.status_code = 200
                     return response
-
+        response = {
+            "message": "Please login first."
+        }
+        response.status_code = 403
+        return jsonify(response)
 
     @app.route('/bucketlists/<int:id>', methods=['GET', 'PUT', 'DELETE'])
     def bucketlist_manipulation(id):
