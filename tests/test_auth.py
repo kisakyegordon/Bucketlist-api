@@ -13,6 +13,10 @@ class AuthTestCase(unittest.TestCase):
             'email': 'brian@example.com',
             'password': 'password'
         }
+        self.user2_data = {
+            'email': 'brian@example.com',
+            'password': 'password2'
+        }
         with self.app.app_context():
             db.session.close()
             db.drop_all()
@@ -43,6 +47,15 @@ class AuthTestCase(unittest.TestCase):
         self.assertEqual(result['message'], "You logged in successfully.")
         self.assertEqual(login_res.status_code, 200)
         self.assertTrue(result['access_token'])
+
+    def test_user_reset_password(self):
+        """method for testing user password reset."""
+        res = self.client.post('/auth/register', data=self.user_data)
+        self.assertEqual(res.status_code, 201)
+        res1 = self.client.post('/auth/reset-password', data=self.user2_data)
+        self.assertEqual(res1.status_code, 201)
+        result = json.loads(res1.data)
+        self.assertEqual(result['message'], "User password was successfully reset.")
 
     def test_non_registered_user_login(self):
         """Method for testing non registered users."""
