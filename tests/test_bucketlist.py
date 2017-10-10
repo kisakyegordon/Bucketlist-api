@@ -198,7 +198,7 @@ class BucketlistTestCase(unittest.TestCase):
             '/bucketlists/search',
             headers=dict(Authorization=access_token),
             data=search_term)
-        print(result1.data)
+        #print(result1.data)
         self.assertEqual(result1.status_code, 200)
         self.assertIn('Go', str(result1 .data))
 
