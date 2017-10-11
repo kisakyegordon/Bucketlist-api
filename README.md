@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/freshprincekla/Bucketlist-api.svg?branch=master)](https://travis-ci.org/freshprincekla/Bucketlist-api)
 [![Coverage Status](https://coveralls.io/repos/github/freshprincekla/Bucketlist-api/badge.svg?branch=master)](https://coveralls.io/github/freshprincekla/Bucketlist-api?branch=master)
+[![BCH compliance](https://bettercodehub.com/edge/badge/freshprincekla/Bucketlist-api?branch=master)](https://bettercodehub.com/)
 
 # Bucket list Api Application using flask framework
 
@@ -47,7 +48,8 @@ POST | /bucketlists/id/items | False | Add an Item to a bucket list
 PUT | /bucketlists/id/items/<item_id> | False | Update a bucket list item on a given list
 DELETE | /bucketlists/id/items/<item_id> | False | Delete a bucket list item from a given list
 
-Python 3.6.1
+
+
 
 ## ** Installation **
 
@@ -60,7 +62,7 @@ To install  the virtualenvwrapper follow the link installing [Installing Virtual
 Clone Github repository
 
 ```
-$ git clone https://github.com/freshprincekla/Bucketlist.git
+https://github.com/freshprincekla/Bucketlist-api.git
 
 ```
 
