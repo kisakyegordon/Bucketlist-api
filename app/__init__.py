@@ -14,7 +14,6 @@ def create_app(config_name):
     from app.models import Bucketlist, User, BucketlistItem
     app = FlaskAPI(__name__, instance_relative_config=True)
     app.config.from_object(app_config['testing'])
-    #app.config.from_pyfile('config.py')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 
@@ -58,6 +57,7 @@ def create_app(config_name):
 
     @app.route('/bucketlists/page=1', methods=['GET'])
     def bucketlists_list():
+        """Method for returning paginated bucket lists."""
         page = int(request.args['page'])
         limit = int(request.args['limit'])
         bucket_lists = Bucketlist.query.filter_by().paginate(page, limit, False).items
@@ -72,7 +72,7 @@ def create_app(config_name):
         if page <= 1:
             prev_url = ""
         else:
-            page_value =  page - 1
+            page_value = page - 1
             prev_url = base_url + '?limit={}&page={}'.format(limit, page_value)
         next_url = base_url + '?limit={}&page={}'.format(limit, page + 1)
 
@@ -85,8 +85,8 @@ def create_app(config_name):
         response.status_code = 200
         return response
 
-    @app.route('/bucketlists/<int:id>', methods=['GET', 'PUT', 'DELETE'])
-    def bucketlist_manipulation(id):
+    @app.route('/bucketlists/<int:bucket_id>', methods=['GET', 'PUT', 'DELETE'])
+    def bucketlist_manipulation(bucket_id):
         """Method for retrieving bucket list by id."""
         access_token = request.headers.get('Authorization')
         if access_token:
@@ -98,7 +98,7 @@ def create_app(config_name):
                 response.status_code = 403
                 return jsonify(response)
             if not isinstance(user_id, str):
-                bucketlist = Bucketlist.query.filter_by(id=id).first()
+                bucketlist = Bucketlist.query.filter_by(id=bucket_id).first()
                 if not bucketlist:
                     abort(404)
                 elif request.method == 'DELETE':
