@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/freshprincekla/Bucketlist-api.svg?branch=master)](https://travis-ci.org/freshprincekla/Bucketlist-api)
 [![Coverage Status](https://coveralls.io/repos/github/freshprincekla/Bucketlist-api/badge.svg?branch=master)](https://coveralls.io/github/freshprincekla/Bucketlist-api?branch=master)
 
 # Bucket list Api Application using flask framework
