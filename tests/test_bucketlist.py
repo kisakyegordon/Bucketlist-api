@@ -10,6 +10,8 @@ class BucketlistTestCase(unittest.TestCase):
         self.app = create_app(config_name='testing')
         self.client = self.app.test_client()
         self.bucketlist = {'name': 'Go to Borabora for vacation'}
+        self.bucketlist2 = {'name': 'Go to Borabora for vacation to kenya'}
+        self.bucketlist3 = {'name': 'Go to Borabora for vacation to mexico'}
         self.bucketlistitem = {'name': 'Go rafting.'}
         self.new_bucketlist_item = {
             'name':'Go to the GP Kart',
@@ -58,6 +60,26 @@ class BucketlistTestCase(unittest.TestCase):
         res = self.client.get('/bucketlists/', headers=dict(Authorization=access_token))
         self.assertEqual(res.status_code, 200)
         self.assertIn('Go to Borabora', str(res.data))
+
+    def test_bucketlists_pagination(self):
+        """Method to test if one can retrieve all bucket lists with pagination."""
+        self.register_user()
+        result = self.login_user()
+        access_token = json.loads(result.data.decode())['access_token']
+        res = self.client.post('/bucketlists/',
+                               headers=dict(Authorization=access_token),
+                               data=self.bucketlist)
+        res1 = self.client.post('/bucketlists/',
+                                headers=dict(Authorization=access_token),
+                                data=self.bucketlist2)
+        res2 = self.client.post('/bucketlists/',
+                                headers=dict(Authorization=access_token),
+                                data=self.bucketlist3)
+        result = self.client.get('/bucketlists/?limit=1&page=1', headers=dict(Authorization=access_token))
+        self.assertEqual(result.status_code, 200)
+        self.assertIn('next_url', str(result.data))
+        print(result)
+        #self.assertIsNone(result.urls)
 
     def test_bucketlist_deletion(self):
         """Method to test if one can delete a bucket list."""
