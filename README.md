@@ -46,3 +46,43 @@ GET | /bucketlists/id/items/<item_id> | False | View details of a particular ite
 POST | /bucketlists/id/items | False | Add an Item to a bucket list
 PUT | /bucketlists/id/items/<item_id> | False | Update a bucket list item on a given list
 DELETE | /bucketlists/id/items/<item_id> | False | Delete a bucket list item from a given list
+
+Python 3.6.1
+
+## ** Installation **
+
+#### Step 1
+Install a  virtualenvwrapper
+A Virtual Environment is a tool to keep the dependencies required by different projects in separate places, by creating virtual Python environments for them.
+To install  the virtualenvwrapper follow the link installing [Installing Virtual Environment](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
+
+#### Step 2
+Clone Github repository
+
+```
+$ git clone https://github.com/freshprincekla/Bucketlist.git
+
+```
+
+#### Step 3
+Install the required dependencies
+
+```
+$ pip install -r requirements.txt
+
+```
+or
+
+```
+$ pip install --upgrade -r requirements.txt
+
+```
+
+#### Step 5
+### Running the application
+Navigate to the root directory and and run the following command:
+
+```
+$ python run.py
+
+```
