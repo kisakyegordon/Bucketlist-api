@@ -56,6 +56,35 @@ def create_app(config_name):
         response.status_code = 403
         return jsonify(response)
 
+    @app.route('/bucketlists/page=1', methods=['GET'])
+    def bucketlists_list():
+        page = int(request.args['page'])
+        limit = int(request.args['limit'])
+        bucket_lists = Bucketlist.query.filter_by().paginate(page, limit, False).items
+        results = []
+        for bucketlist in bucket_lists:
+            list_of_buckets = {}
+            list_of_buckets['id']: bucketlist.id
+            list_of_buckets['name']: bucketlist.name
+            results.append(list_of_buckets)
+
+        base_url = '/bucketlists/'
+        if page <= 1:
+            prev_url = ""
+        else:
+            page_value =  page - 1
+            prev_url = base_url + '?limit={}&page={}'.format(limit, page_value)
+        next_url = base_url + '?limit={}&page={}'.format(limit, page + 1)
+
+        urls = {
+            'prev_url': prev_url,
+            'next_url': next_url
+        }
+
+        response = jsonify(urls, results)
+        response.status_code = 200
+        return response
+
     @app.route('/bucketlists/<int:id>', methods=['GET', 'PUT', 'DELETE'])
     def bucketlist_manipulation(id):
         """Method for retrieving bucket list by id."""
